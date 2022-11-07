@@ -3,13 +3,12 @@
 
 struct vec3
 {
-    float x,y =0;
-    float z = 1;
+    float vec3[3] = { 0 };
 };
 
 struct mat3
 {
-    float mat3[3][3][3] = {0};
+    float mat3[3][3] = {0};
     //float vec3[3];
 };
 

@@ -6,24 +6,48 @@
 
     //mat3(float 3*3) -> 2차원 행렬
 
+vec3 multip(vec3 v, mat3 m)
+{
+    vec3 k;
+    std::cout << "-----------------------------\n";
+    for (int j = 0; j < 3; j++)
+    {
+        std::cout << "-----" << j + 1 << "번째" << "-----\n";
+
+        v.vec[0] *= m.mat[0][j];
+        v.vec[1] *= m.mat[1][j];
+        v.vec[2] *= m.mat[2][j];
+
+        std::cout << " x " << v.vec[0] << "\n";
+        std::cout << " y " << v.vec[1] << "\n";
+        std::cout << " z " << v.vec[2] << "\n";
+
+        k.vec[j] = v.vec[0] + v.vec[1] + v.vec[2];
+        
+    }
+    //std::cout <<" x "<< p.vec[0];
+
+    return k;
+}
 
 void main() 
 {
-    const double PI = 3.14159;
+    double PI = 3.14159;
 
     vec3 v;
 
     mat3 Translate;
-    Translate.mat3[0][0] = { 1 };
-    Translate.mat3[1][1] = { 1 };
-    Translate.mat3[2][2]= { 1 };
+
+    Translate.mat[2][0]=  3 ;
+    Translate.mat[2][1]=  5 ;
+    Translate.mat[2][2]=  1 ;
 
     mat3 Rotate;
-    Rotate.mat3[0][0] = { float(cos(PI / 3)) };
-    Rotate.mat3[0][1] = { float(-sin(PI / 3)) };
+    Rotate.mat[0][0] = { float(cos(PI / 3)) };
+    Rotate.mat[0][1] = { float(-sin(PI / 3)) };
 
-    Rotate.mat3[1][0] = { float(sin(PI / 3)) };
-    Rotate.mat3[1][1] = { float(cos(PI / 3)) };
+    Rotate.mat[1][0] = { float(sin(PI / 3)) };
+    Rotate.mat[1][1] = { float(cos(PI / 3)) };
 
    
 
@@ -31,34 +55,28 @@ void main()
     //    sin(PI / 3), cos(PI / 3);//
     mat3 Scale;
 
-    Scale.mat3[0][0] = { 2 };
-    Scale.mat3[1][1] = { 2 };
-    Scale.mat3[2][2] = { 1 };
-
+    Scale.mat[0][0] = { 2 };
+    Scale.mat[1][1] = { 2 };
+    Scale.mat[2][2] = { 1 };
 
    
-
-    vec3 p = v * Translate * Rotate * Scale;   // 3,5 이동 | 30도 회전 | 2배 확대
-    std::cout << "Hello World!\n";
+   // 3,5 이동 | 30도 회전 | 2배 확대
 
 
-}
+    vec3 p = multip(v, Translate);
+    std::cout << " x " << p.vec[0];
+    std::cout << " y " << p.vec[1];
+    std::cout << " z " << p.vec[2];
 
-
-float multip(vec3 v2, mat3 m3)
-{
-    vec3 p;
-    vec3 k;
-
-    for (int j=0; j < 3; j++)
-    {
-
-        p.vec3[0] *= v2[0][j];
-        p *= v2[1][j];
-        p[2] *= v2[2][j];
-
-        k[i] = p[0] + p[1] + p[2];
-    }
+    p = multip(p, Rotate);
+    std::cout << " x " << p.vec[0];
+    std::cout << " y " << p.vec[1];
+    std::cout << " z " << p.vec[2];
+    
+    p = multip(p , Scale);
+    std::cout <<" x "<< p.vec[0];
+    std::cout <<" y "<< p.vec[1];
+    std::cout <<" z "<< p.vec[2];
 }
 
 

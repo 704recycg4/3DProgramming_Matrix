@@ -2,81 +2,121 @@
 #include <math.h>
 #include "MuSoenMath.h"// < -아래 자료구조 모두 여기다 구현할것.
 
-    //vec3(float 3*1) -> 2차원좌표 + 동차좌표
 
-    //mat3(float 3*3) -> 2차원 행렬
-
-vec3 multip(vec3 v, mat3 m)
+mat IdentityMatrix(mat m_1)
 {
-    vec3 k;
-    std::cout << "-----------------------------\n";
+    for (int i = 0; i < 3; i++) {
+        m_1.mat3[i][i] = 1;
+    }
+    for (int i = 0; i < 4; i++) {
+        m_1.mat4[i][i] = 1;
+    }
+}
+
+mat TransposeMatrix(mat m_1)
+{
+    mat m_2;
+
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            m_2.mat3[i][j] = m_1.mat3[j][i];
+
+        }
+    }
+
+    return m_2;
+}
+
+mat MatrixMultip(mat m_1, mat m_2)
+{
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            m_1.mat3[i][j] *= m_2.mat3[i][j];
+        }
+    }
+    return m_1;
+}
+
+mat MatrixTransposeMultip(mat m_1, mat m_2) 
+{
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            m_1.mat3[i][j] *= m_2.mat3[j][i];
+        }
+    }
+    return m_1;
+}
+
+vec VectorMultip(vec v_1, vec v_2)
+{
     for (int j = 0; j < 3; j++)
     {
-        std::cout << "-----" << j + 1 << "번째" << "-----\n";
-
-        v.vec[0] *= m.mat[0][j];
-        v.vec[1] *= m.mat[1][j];
-        v.vec[2] *= m.mat[2][j];
-
-        std::cout << " x " << v.vec[0] << "\n";
-        std::cout << " y " << v.vec[1] << "\n";
-        std::cout << " z " << v.vec[2] << "\n";
-
-        k.vec[j] = v.vec[0] + v.vec[1] + v.vec[2];
-        
+        v_1.vec3[0] *= v_2.vec3[0];
+        v_1.vec3[1] *= v_2.vec3[1];
+        v_1.vec3[2] *= v_2.vec3[2];
     }
-    //std::cout <<" x "<< p.vec[0];
 
-    return k;
+    return v_1;
 }
+
+vec MultiplyTransposeVector(vec v_1, mat m_2)
+{
+    mat k;
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            k.mat3[j][i] *= v_1.vec3[i];
+        }
+        v_1.vec3[i] = k.mat3[0][i] + k.mat3[1][i] + k.mat3[2][i];
+    }
+    return v_1;
+}
+
+
 
 void main() 
 {
     double PI = 3.14159;
 
-    vec3 v;
+    vec v;
 
-    mat3 Translate;
+    mat Translate;
 
-    Translate.mat[2][0]=  3 ;
-    Translate.mat[2][1]=  5 ;
-    Translate.mat[2][2]=  1 ;
+    Translate.mat3[2][0]=  3 ;
+    Translate.mat3[2][1]=  5 ;
+    Translate.mat3[2][2]=  1 ;
 
-    mat3 Rotate;
-    Rotate.mat[0][0] = { float(cos(PI / 3)) };
-    Rotate.mat[0][1] = { float(-sin(PI / 3)) };
+    mat Rotate;
+    Rotate.mat3[0][0] = { float(cos(PI / 3)) };
+    Rotate.mat3[0][1] = { float(-sin(PI / 3)) };
 
-    Rotate.mat[1][0] = { float(sin(PI / 3)) };
-    Rotate.mat[1][1] = { float(cos(PI / 3)) };
+    Rotate.mat3[1][0] = { float(sin(PI / 3)) };
+    Rotate.mat3[1][1] = { float(cos(PI / 3)) };
 
    
 
     //cos(PI / 3), -sin(PI / 3);//
     //    sin(PI / 3), cos(PI / 3);//
-    mat3 Scale;
+    mat Scale;
 
-    Scale.mat[0][0] = { 2 };
-    Scale.mat[1][1] = { 2 };
-    Scale.mat[2][2] = { 1 };
+    Scale.mat3[0][0] = { 2 };
+    Scale.mat3[1][1] = { 2 };
+    Scale.mat3[2][2] = { 1 };
 
    
    // 3,5 이동 | 30도 회전 | 2배 확대
 
-
-    vec3 p = multip(v, Translate);
-    std::cout << " x " << p.vec[0];
-    std::cout << " y " << p.vec[1];
-    std::cout << " z " << p.vec[2];
-
-    p = multip(p, Rotate);
-    std::cout << " x " << p.vec[0];
-    std::cout << " y " << p.vec[1];
-    std::cout << " z " << p.vec[2];
-    
-    p = multip(p , Scale);
-    std::cout <<" x "<< p.vec[0];
-    std::cout <<" y "<< p.vec[1];
-    std::cout <<" z "<< p.vec[2];
+    vec p;
+    p.vec3[0] = { 3};
+    p.vec3[1] = {5};
+    p.vec3[2] = {1};
 }
 
 
